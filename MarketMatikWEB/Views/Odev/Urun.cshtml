@@ -1,0 +1,337 @@
+﻿
+@{
+    ViewBag.Title = "LimonLAB Admin Paneli V.1.6 / Ürün İşlemleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+
+        <div class="col-lg-12">
+            <h1 class="page-header">Ürün Düzenle <button class="btn btn-success" data-toggle="modal" data-target="#Comar"><i class="fa fa-paw"></i> Çomar Yardım</button> </h1>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Tüm Ürünler Gösteriliyor Ürünler İle ilgili İşlem Yapmak İçin İlgili Ürüne Tıklayın
+                </div>
+                <div class="panel-body">
+                    <table id="dataTables-example" class="table table-striped table-bordered table-hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th>Marka</th>
+                                <th>Kampanya</th>
+                                <th>Barkod</th>
+                                <th>Ürün Adı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="Kategoriler"></td>
+                                <td id="Marka"></td>
+                                <td id="Kampanya"></td>
+                                <td id="Barkod"></td>
+                                <td id="UrunAdi"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="Comar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">ÇOMAR AI V.1.2 (ALPHA)</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                ÇOMAR YARDIM
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Merhaba! Ben SiteRobotu Çomar. Bu Sayfa Bilge Adam Ödevi İçin WEB API
+                                    İle Ajax Ödevi İçin Hazırlandı.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="Duzenle" tabindex="-1" role="dialog" aria-labelledby="DuzenleLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="DuzenleLabel">Kampanya Düzenle</h4>
+                    </div>
+                    <form role="form" method="post" id="Veri">
+                        <div class="modal-body">
+                            <input type="hidden" name="Benzersiz" value="@ViewBag.KEY" id="Benzersiz" />
+                            <div class="form-group">
+                                <label>Bu Kampanya Güncellenecek Devam Edilsin mi?</label>
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select class="selectpicker form-control" data-live-search="true" name="KategoriAdi" id="Kategorilerd">
+                                        @{
+                                            foreach (var item in MarketMatikDAL.Repo.KategoriRepo.Liste())
+                                            {
+                                                <option data-tokens="@item.KategoriAdi">@item.KategoriAdi</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Marka</label>
+                                    <select class="selectpicker form-control" data-live-search="true" name="MarkaAdi" id="Markad">
+                                        @{
+                                            foreach (var item in MarketMatikDAL.Repo.MarkaRepo.Liste())
+                                            {
+                                        <option data-tokens="@item.MarkaAdi">@item.MarkaAdi</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Kampanya</label>
+                                    <select class="selectpicker form-control" data-live-search="true" name="KampanyaAdi" id="Kampanyad">
+                                        @{
+                                            foreach (var item in MarketMatikDAL.Repo.KampanyaRepo.Liste())
+                                            {
+                                        <option data-tokens="@item.KampanyaAdi">@item.KampanyaAdi</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Barkod</label>
+                                    <input class="form-control" name="Barkod" id="Barkodd" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ürün Adı</label>
+                                    <input class="form-control" name="UrunAdi" id="UrunAdid" required>
+                                </div>
+                                @*<div class="form-group">
+                                    <label>Fiyat</label>
+                                    <input type="number" min="1" max="100" value="1" class="form-control" name="SonFiyat" id="SonFiyatd" required>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                            <button type="submit" class="btn btn-primary" onclick="Guncelle()">Güncelle</button>
+                            <button type="submit" class="btn btn-warning" onclick="Sil()">SİL</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="Ekle" tabindex="-1" role="dialog" aria-labelledby="EkleLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="EkleLabel">Kampanya Ekle</h4>
+                    </div>
+                    <form role="form" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="Benzersiz" value="@ViewBag.KEY" id="Benzersize" />
+                            <div class="form-group">
+                                <label>Bu Kampanya Güncellenecek Devam Edilsin mi?</label>
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select class="selectpicker form-control" data-live-search="true" name="KategoriAdi" id="Kategorilere">
+                                        @{
+                                            foreach (var item in MarketMatikDAL.Repo.KategoriRepo.Liste())
+                                            {
+                                                <option data-tokens="@item.KategoriAdi">@item.KategoriAdi</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Marka</label>
+                                    <select class="selectpicker form-control" data-live-search="true" name="MarkaAdi" id="Markae">
+                                        @{
+                                            foreach (var item in MarketMatikDAL.Repo.MarkaRepo.Liste())
+                                            {
+                                                <option data-tokens="@item.MarkaAdi">@item.MarkaAdi</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Kampanya</label>
+                                    <select class="selectpicker form-control" data-live-search="true" name="KampanyaAdi" id="Kampanyae">
+                                        @{
+                                            foreach (var item in MarketMatikDAL.Repo.KampanyaRepo.Liste())
+                                            {
+                                                <option data-tokens="@item.KampanyaAdi">@item.KampanyaAdi</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Barkod</label>
+                                    <input class="form-control" name="Barkod" id="Barkode" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ürün Adı</label>
+                                    <input class="form-control" name="UrunAdi" id="UrunAdie" required>
+                                </div>
+                                @*<div class="form-group">
+                                    <label>Fiyat</label>
+                                    <input type="number" min="1" max="100" value="1" class="form-control" name="SonFiyat" id="SonFiyate" required>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                            <button type="submit" class="btn btn-success" onclick="Ekle()">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div>
+                <button data-toggle="modal" data-target="#Ekle" class="btn btn-info col-lg-12">Ürün Ekle</button>
+                <p class="text-warning"><strong>Bir Ürün Eklemek İçin Ürün Ekle Butonuna Basın</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'Get',
+            url: 'http://localhost:49255/Api/Urun/',
+            contentType: 'application/json',
+            success: function (data) {
+            var table = $('#dataTables-example').DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'Kategoriler' },
+                        { data: 'Marka' },
+                        { data: 'Kampanya' },
+                        { data: 'Barkod' },
+                        { data: 'UrunAdi' }
+                    ],
+                    select: true,
+                    lengthChange: false,
+                    responsive: true
+                });
+            table
+                .on('select', function (e, dt, type, indexes) {
+                    var rowData = table.rows({ selected: true }).data();
+                    $('#Kategorilerd').selectpicker('val', rowData[0].Kategoriler);
+                    $('#Markad').selectpicker('val', rowData[0].Marka);
+                    $('#Kampanyad').selectpicker('val', rowData[0].Kampanya);
+                    document.getElementById("Barkodd").value = rowData[0].Barkod;
+                    document.getElementById("UrunAdid").value = rowData[0].UrunAdi;
+                    $('#Duzenle').modal('show');
+                });
+            },
+        });
+    });
+
+    function Guncelle() {
+
+        var Kategoriler = $('#Kategorilerd').selectpicker('val');
+        var Marka = $('#Markad').selectpicker('val');
+        var Kampanya = $('#Kampanyad').selectpicker('val');
+        var Barkod = document.getElementById("Barkodd").value;
+        var UrunAdi = document.getElementById("UrunAdid").value;
+        var Benzersiz = document.getElementById("Benzersiz").value;
+
+        var data = JSON.stringify({
+            'Kategoriler': Kategoriler,
+             'Marka'     :  Marka,
+             'Kampanya' : Kampanya,
+             'Barkod'  :Barkod,
+             'UrunAdi': UrunAdi,
+             'Benzersiz': Benzersiz
+        });
+
+        $.ajax({
+            type: "Put",
+            contentType: 'application/json',
+            url: 'http://localhost:49255/Api/Urun/Put',
+            data: data,
+            success: function () {
+                location.reload();
+            }
+        });
+    };
+
+    function Sil() {
+        var Kategoriler = $('#Kategorilerd').selectpicker('val');
+        var Marka = $('#Markad').selectpicker('val');
+        var Kampanya = $('#Kampanyad').selectpicker('val');
+        var Barkod = document.getElementById("Barkodd").value;
+        var UrunAdi = document.getElementById("UrunAdid").value;
+        var Benzersiz = document.getElementById("Benzersiz").value;
+
+        var data2 = JSON.stringify({
+            'Kategoriler': Kategoriler,
+            'Marka': Marka,
+            'Kampanya': Kampanya,
+            'Barkod': Barkod,
+            'UrunAdi': UrunAdi,
+            'Benzersiz': Benzersiz
+        });
+
+        $.ajax({
+            type: "Delete",
+            contentType: 'application/json',
+            url: 'http://localhost:49255/Api/Urun/Delete',
+            data: data2,
+            success: function () {
+                location.reload();
+            }
+        });
+    };
+
+    function Ekle() {
+
+        var Kategoriler = $('#Kategorilere').selectpicker('val');
+        var Marka = $('#Markae').selectpicker('val');
+        var Kampanya = $('#Kampanyae').selectpicker('val');
+        var Barkod = document.getElementById("Barkode").value;
+        var UrunAdi = document.getElementById("UrunAdie").value;
+        var Benzersiz = document.getElementById("Benzersize").value;
+
+        var data3 = JSON.stringify({
+            'Kategoriler': Kategoriler,
+            'Marka': Marka,
+            'Kampanya': Kampanya,
+            'Barkod': Barkod,
+            'UrunAdi': UrunAdi,
+            'Benzersiz': Benzersiz
+        });
+        
+        $.ajax({
+            type: "Post",
+            contentType: 'application/json',
+            url: 'http://localhost:49255/Api/Urun/Post',
+            data: data3,
+            success: function () {
+                location.reload();
+            }
+        });
+    };
+
+</script>

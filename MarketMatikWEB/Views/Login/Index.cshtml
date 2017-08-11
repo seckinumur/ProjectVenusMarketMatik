@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="LimonLAB Admin Control Systems. Seçkin Umur">
+    <meta name="keywords" content="seçkin,umur,seckinumur,seçkin umur">
+    <title>Choice Admin Control Systems V.1.5</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/form-elements.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="top-content">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 text">
+                        <h1><strong>PROJECT VENUS</strong></h1>
+                        <div class="description">
+                            <p class="text-sm">&COPY; 2017 <a href="http://www.seckinumur.com" target="_blank">LimonLAB</a> All Right Reserved </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>ADMIN KONTROL SiSTEMi V.1.6 BilgeAdam Ödevi (Admin / 9916)</h3>
+                                <p class="@TempData["UyariTipi"]">@TempData["Sonuc"]</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <form role="form" action="" method="post" class="login-form">
+                                <div class="form-group">
+                                    <input type="text" name="Email" placeholder="Kullanıcı Adı" class="form-username form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="Sifre" placeholder="Şifre" class="form-password form-control" required>
+                                </div>
+                                <button type="submit" class="btn">Sisteme Gir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.backstretch.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.backstretch([
+                "../images/AdminBG1.JPG",
+                "../images/AdminBG2.jpg",
+                "../images/AdminBG3.jpg"
+            ], { duration: 3000, fade: 750 });
+        });
+    </script>
+</body>
+</html>
